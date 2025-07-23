@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import React, { useEffect, useState } from "react";
 import CourseItem from "./CourseItem";
+import Link from "next/link";
 
 const CourseList = () => {
   const [courseList, setCourseList] = useState([]);
@@ -40,11 +41,20 @@ const CourseList = () => {
         </Select>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        {courseList.map((item, index) => (
-          <div key={index}>
-            <CourseItem course={item} />
-          </div>
-        ))}
+        {courseList?.length > 0
+          ? courseList.map((item, index) => (
+              <Link key={index} href={"/course-preview/" + item.id}>
+                <div>
+                  <CourseItem course={item} />
+                </div>
+              </Link>
+            ))
+          : [1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+              <div
+                key={index}
+                className="w-full h-[240px] rounded-xl m-2 bg-slate-200 animate-pulse "
+              ></div>
+            ))}
       </div>
     </div>
   );
