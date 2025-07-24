@@ -54,9 +54,12 @@ const getSideBanner = async () => {
 };
 
 const getCourseById = async (courseId) => {
-  const query = gql`
+  const query =
+    gql`
     query getCourseById {
-      courseList(where: { id: "`+courseId+`" }) {
+      courseList(where: { id: "` +
+    courseId +
+    `" }) {
         author
         banner {
           url
@@ -88,8 +91,142 @@ const getCourseById = async (courseId) => {
   return result;
 };
 
+const enrollToCourse = async (courseId, email) => {
+  const query =
+    gql`
+    mutation MyMutation {
+      createUserEnrollCourse(
+        data: {
+          courseId: "` +
+    courseId +
+    `"
+          userEmail: "` +
+    email +
+    `"
+          courseList: { connect: { id: "` +
+    courseId +
+    `" } }
+        }
+      ) {
+        courseId
+        id
+      }
+        publishManyUserEnrollCoursesConnection {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+        
+    }
+  `;
+
+  const result = await request(MASTER_URL, query);
+  return result;
+};
+
+const checkUserEnrolledToCourse = async (courseId, email) => {
+  const query =
+    gql`
+      query MyQuery {
+        userEnrollCourses(where: { courseId: "` +
+    courseId +
+    `", userEmail: "` +
+    email +
+    `" }) {
+          id
+        }
+      }
+    `;
+
+  const result = await request(MASTER_URL, query);
+  return result;
+};
+
+const getUserEnrolledCourseDetails = async (id, email) => {
+  const query =
+    gql`
+    query MyQuery {
+      userEnrollCourses(where: { id: "` +
+    id +
+    `", userEmail: "`+email+`" }) {
+        completedChapter {
+          ... on CompletedChapter {
+            id
+          }
+        }
+        courseList {
+          author
+          banner {
+            url
+          }
+          chapter {
+            ... on Chapter {
+              id
+              name
+              shortDesc
+              video {
+                url
+              }
+            }
+          }
+          demoUrl
+          description
+          id
+          name
+          free
+          slug
+          sourceCode
+          totalChapter
+        }
+        courseId
+        userEmail
+        id
+      }
+    }
+  `;
+
+  const result = await request(MASTER_URL, query);
+  return result;
+};
+
+const markChapterCompleted = async(enrollId, chapterId) => {
+  const query =
+    gql`
+    mutation MyMutation {
+      updateUserEnrollCourse(
+        data: {
+          completedChapter: {
+            create: { CompletedChapter: { data: { chapterId: "` +
+    chapterId +
+    `" } } }
+          }
+        }
+        where: { id: "` +
+    enrollId +
+    `" }
+      ) {
+        id
+      }
+      publishUserEnrollCourse(where: { id: "` +
+    enrollId +
+    `" }) {
+        id
+      }
+    }
+  `;
+
+  const result = await request(MASTER_URL, query);
+  return result;
+}
+
 export default {
   getCourseList,
   getSideBanner,
-  getCourseById
+  getCourseById,
+  enrollToCourse,
+  checkUserEnrolledToCourse,
+  getUserEnrolledCourseDetails,
+  markChapterCompleted
 };

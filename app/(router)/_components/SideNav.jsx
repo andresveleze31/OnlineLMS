@@ -1,29 +1,43 @@
 "use client";
-import { BadgeIcon, BookOpen, GraduationCap } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import { BadgeIcon, BookOpen, GraduationCap, LayoutGrid } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
 const SideNav = () => {
+
+  const {user} = useUser();
+
   const menu = [
     {
       id: 1,
-      name: "All Courses",
-      path: "courses",
-      icon: BookOpen,
+      name: "Dashboard",
+      path: "dashboard",
+      icon: LayoutGrid,
+      auth:user
     },
     {
       id: 2,
-      name: "Membership",
-      path: "membership",
-      icon: BadgeIcon,
+      name: "All Courses",
+      path: "courses",
+      icon: BookOpen,
+      auth: true
     },
     {
       id: 3,
+      name: "Membership",
+      path: "membership",
+      icon: BadgeIcon,
+      auth: true
+    },
+    {
+      id: 4,
       name: "Be Instructor",
       path: "instructor",
       icon: GraduationCap,
+      auth: true
     },
   ];
 
@@ -39,8 +53,8 @@ const SideNav = () => {
       <hr className="mt-7" />
       {/* Menu List */}
       <div className="mt-5">
-        {menu.map((item, index) => (
-          <Link key={index} href={item.path}>
+        {menu.map((item, index) => item.auth&&(
+          <Link key={index} href={"/"+item.path}>
             <div
               className={`group flex gap-3 mt-2 p-3 text-md items-center text-gray-500 cursor-pointer hover:bg-primary hover:text-white rounded-md transition-all ease-in-out duration-200 ${
                 path.includes(item.path) && "bg-primary text-white"
