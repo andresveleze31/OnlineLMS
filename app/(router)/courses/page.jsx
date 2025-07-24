@@ -1,24 +1,21 @@
-import React from 'react'
-import WelcomeBanner from './_components/WelcomeBanner'
-import CourseList from './_components/CourseList'
-import SideBanners from './_components/SideBanners'
+import React from "react";
+import WelcomeBanner from "./_components/WelcomeBanner";
+import CourseList from "./_components/CourseList";
+import SideBanners from "./_components/SideBanners";
 
 const CoursesPage = () => {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-4 p-5 gap-5'>
-        <div className='col-span-3'>
-            <WelcomeBanner />
+    <div className="grid grid-cols-1 md:grid-cols-4 p-5 gap-5">
+      <div className="col-span-3">
+        <WelcomeBanner />
 
-            <CourseList />
-
-        </div>
-        <div className='p-5 bg-white rounded-xl'>
-            <SideBanners />
-
-        </div>
-      
+        <CourseList />
+      </div>
+      <div className="p-5 bg-white rounded-xl">
+        <SideBanners />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default CoursesPage
+export default CoursesPage;

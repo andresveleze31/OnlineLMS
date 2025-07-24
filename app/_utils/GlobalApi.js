@@ -150,7 +150,9 @@ const getUserEnrolledCourseDetails = async (id, email) => {
     query MyQuery {
       userEnrollCourses(where: { id: "` +
     id +
-    `", userEmail: "`+email+`" }) {
+    `", userEmail: "` +
+    email +
+    `" }) {
         completedChapter {
           ... on CompletedChapter {
             id
@@ -191,7 +193,7 @@ const getUserEnrolledCourseDetails = async (id, email) => {
   return result;
 };
 
-const markChapterCompleted = async(enrollId, chapterId) => {
+const markChapterCompleted = async (enrollId, chapterId) => {
   const query =
     gql`
     mutation MyMutation {
@@ -219,7 +221,46 @@ const markChapterCompleted = async(enrollId, chapterId) => {
 
   const result = await request(MASTER_URL, query);
   return result;
-}
+};
+
+const getUserAllEnrolledCourse = async (email) => {
+  const query = gql`
+    query MyQuery {
+      userEnrollCourses(where: { userEmail: "`+email+`" }) {
+        completedChapter {
+          ... on CompletedChapter {
+            id
+            chapterId
+          }
+        }
+        courseId
+        courseList {
+          id
+          name
+          totalChapter
+          slug
+          sourceCode
+          free
+          description
+          demoUrl
+          chapter {
+            ... on Chapter {
+              id
+              name
+            }
+          }
+          author
+          banner {
+            url
+          }
+        }
+      }
+    }
+  `;
+
+  const result = await request(MASTER_URL, query);
+  return result;
+};
 
 export default {
   getCourseList,
@@ -228,5 +269,6 @@ export default {
   enrollToCourse,
   checkUserEnrolledToCourse,
   getUserEnrolledCourseDetails,
-  markChapterCompleted
+  markChapterCompleted,
+  getUserAllEnrolledCourse,
 };
