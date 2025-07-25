@@ -19,7 +19,7 @@ const CourseContentSection = ({
     <div className="p-3 bg-white rounded-sm">
       <h2 className="text-xl font-bold mb-3">Content</h2>
       {courseInfo.chapter.map((item, index) => (
-        <div>
+        <div className="mt-3">
           <h2
             className={`p-2 text-md flex justify-between items-center border rounded-sm px-4 cursor-pointer hover:bg-gray-200 hover:text-gray-500 ${
               activeIndex === index && "bg-primary text-white"

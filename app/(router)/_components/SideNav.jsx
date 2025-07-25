@@ -32,13 +32,7 @@ const SideNav = () => {
       icon: BadgeIcon,
       auth: true
     },
-    {
-      id: 4,
-      name: "Be Instructor",
-      path: "instructor",
-      icon: GraduationCap,
-      auth: true
-    },
+    
   ];
 
   const path = usePathname();
