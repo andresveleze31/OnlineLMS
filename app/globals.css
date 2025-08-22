@@ -120,3 +120,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+.contenedor{
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.contenedor-2{
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.bg-banner {
+  background-image: url("/main-banner.jpg");
+  background-repeat: no-repeat;   /* evita que se repita */
+  background-size: cover;         /* ocupa todo el área */
+  background-position: center;    /* centrada */
+}
+
+.bg-shape {
+  background-image: url("/shape1.png");
+  background-repeat: no-repeat;   /* evita que se repita */
+  background-size: cover;         /* ocupa todo el área */
+  background-position: center;    /* centrada */
+}
